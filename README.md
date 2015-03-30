@@ -14,19 +14,30 @@ int main(void) {
     int num = 1;
     char *str = "hello";
 
-    debug(num); // => 1
+    debug(num);
+    // => num = 1
 
-    debug("counting:", 1, -2, 3 + 0.4); // => counting: 1 -2 3.4
+    debug(num, str, answer());
+    // => num = 1
+    //    str = hello
+    //    answer() = 42
 
-    debug(str, "world!"); // => hello world!
+    debug_raw("counting:", 1, -2, 3 + 0.4);
+    // => counting: 1 -2 3.4
 
-    debug("answer() =", answer()); // => answer() = 42
+    debug_raw(str, "world!");
+    // => hello world!
 
-    debugexpr(answer()); // => answer() = 42
+    idebug(num);
+    // => example.c:26: num = 1
 
-    idebug("num =", num); // => example.c:22: num = 1
+    idebug(num, str);
+    // => example.c:29:
+    //            num = 1
+    //            str = hello
 
-    idebugexpr(num); // => example.c:24: num = 1
+    idebug_raw("The answer is", answer());
+    // => example.c:34: The answer is 42
 
     return 0;
 }
@@ -42,7 +53,7 @@ Just include `debug.h` in your file.
 * Literal chars have type `int`, so you have to cast them to `char` to print them as actual chars:
 
 ```c
-debug("Find the", (char)'X'); // => Find the X
+debug_raw("Find the", (char)'X'); // => Find the X
 ```
 
 ## Tips
@@ -53,7 +64,7 @@ For quick debugging, include the header right where you need it:
 void function(void) {
     ...
     #include "debug.h"
-    debugexpr(var); // => var = XXX
+    debug(var); // => var = XXX
     ...
 }
 ```
@@ -67,3 +78,4 @@ To remove quickly all debugging output, define `NDEBUG` before the header inclus
 debug(var); // Doesn't print anything
 ...
 ```
+
